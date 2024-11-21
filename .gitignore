@@ -11,3 +11,25 @@
 
 #!.yarn/cache
 .pnp.*
+
+# Ignore the node_modules directory
+node_modules/
+
+*.lock
+
+# Ignore Logs
+logs
+*.log
+
+# Ignore the build directory
+/dist
+
+# The file containing environment variables 
+.env
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+*.sw*
+
+.DS_Store
