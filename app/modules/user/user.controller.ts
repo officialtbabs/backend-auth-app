@@ -1,4 +1,3 @@
-import { ObjectId } from "mongoose";
 import { UserService } from "./user.service";
 
 export class UserController {
