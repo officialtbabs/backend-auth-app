@@ -1,4 +1,4 @@
-import { IUser } from "../user/user.model";
+import { IUser } from "../user/user.types";
 import { AuthService } from "./auth.service";
 
 export class AuthController {

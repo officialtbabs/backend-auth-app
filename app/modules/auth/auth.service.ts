@@ -1,7 +1,8 @@
 import { comparePassword, hashPassword } from "../../shared/utils/bcrypt.util";
 import { generateToken } from "../../shared/utils/jwt.util";
-import { IUser } from "../user/user.model";
+import { AuthenticationErrorCodesEnums, GraphQLErrorAuthenticationError } from "../../types";
 import { UserRepository } from "../user/user.repository";
+import { IUser } from "../user/user.types";
 
 export class AuthService {
   private userRepository: UserRepository;
@@ -16,11 +17,13 @@ export class AuthService {
     const { email, password, firstname, lastname } = data;
 
     const existingUser = await this.userRepository.findUserByEmail(email);
-    if (existingUser) throw new Error("User with this email already exists.");
+    if (existingUser)
+      throw new GraphQLErrorAuthenticationError(
+        AuthenticationErrorCodesEnums.emailIsTaken,
+        "User with this email already exists."
+      );
 
     const hashedPassword = await hashPassword(password);
-
-    console.log(hashedPassword);
 
     const user = await this.userRepository.create({
       email,
@@ -42,12 +45,25 @@ export class AuthService {
     const { email, password } = data;
     const user = await this.userRepository.findUserByEmail(email);
 
-    if (!user) throw new Error("Invalid Email");
+    if (!user)
+      throw new GraphQLErrorAuthenticationError(
+        AuthenticationErrorCodesEnums.emailNotValid,
+        "Email entered is not valid."
+      );
 
     const isPasswordValid = await comparePassword(password, user.password);
-    if (!isPasswordValid) throw new Error("Invalid Password");
 
-    if (!user.isVerified) throw new Error("Please verify account");
+    if (!isPasswordValid)
+      throw new GraphQLErrorAuthenticationError(
+        AuthenticationErrorCodesEnums.passwordNotValid,
+        "Password entered is not valid."
+      );
+
+    if (!user.isVerified)
+      throw new GraphQLErrorAuthenticationError(
+        AuthenticationErrorCodesEnums.unauthorized,
+        "Profile is penidng verification."
+      );
 
     const token = generateToken(user.id);
 

@@ -3,7 +3,8 @@
   "packageManager": "yarn@4.2.2",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch src --exec ts-node src/index.ts"
+    "start": "nodemon --watch app --exec ts-node app/index.ts",
+    "build": "tsc --build"
   },
   "dependencies": {
     "apollo-server-express": "^3.13.0",

@@ -11,7 +11,7 @@ export class UserService {
   async getUserProfile(id: string) {
     if (!mongoose.Types.ObjectId.isValid(id))
       throw new Error("Invalid user ID format");
-    
+
     const user = await this.userRepository.findUserById(id);
     if (!user) throw new Error("User not found");
 
