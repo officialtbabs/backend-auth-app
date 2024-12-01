@@ -12,7 +12,7 @@ const userTypeDefs = gql`
   }
 
   type Query {
-    getUserProfile(id: ID!): User!
+    getUserProfile: User!
   }
 `;
 
