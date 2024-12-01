@@ -1,3 +1,7 @@
+import {
+  AuthenticationErrorCodesEnums,
+  GraphQLErrorAuthenticationError,
+} from "../../types";
 import { UserService } from "./user.service";
 
 export class UserController {
@@ -7,10 +11,14 @@ export class UserController {
     this.userService = new UserService();
   }
 
-  async getUserProfile(parent: any, args: { id: string }) {
-    const { id } = args;
+  async getUserProfile(_parent: any, _args: any, { user }: any) {
+    if (!user)
+      throw new GraphQLErrorAuthenticationError(
+        AuthenticationErrorCodesEnums.unauthorized,
+        "User is not logged in."
+      );
 
-    console.log(id, args);
+    const { id } = user;
 
     return await this.userService.getUserProfile(id);
   }

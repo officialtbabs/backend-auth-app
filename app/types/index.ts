@@ -1,4 +1,9 @@
+import { Request } from "express";
 import { GraphQLError, GraphQLErrorOptions } from "graphql";
+
+export interface AuthenticatedRequest extends Request {
+  user?: any;
+}
 
 export enum AuthenticationErrorCodesEnums {
   // Registration error codes
