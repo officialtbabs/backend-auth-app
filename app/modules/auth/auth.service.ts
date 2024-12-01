@@ -1,6 +1,9 @@
 import { comparePassword, hashPassword } from "../../shared/utils/bcrypt.util";
 import { generateToken } from "../../shared/utils/jwt.util";
-import { AuthenticationErrorCodesEnums, GraphQLErrorAuthenticationError } from "../../types";
+import {
+  AuthenticationErrorCodesEnums,
+  GraphQLErrorAuthenticationError,
+} from "../../types";
 import { UserRepository } from "../user/user.repository";
 import { IUser } from "../user/user.types";
 
@@ -58,6 +61,8 @@ export class AuthService {
         AuthenticationErrorCodesEnums.passwordNotValid,
         "Password entered is not valid."
       );
+
+    // console.log(user);
 
     if (!user.isVerified)
       throw new GraphQLErrorAuthenticationError(
